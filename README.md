@@ -2,6 +2,10 @@
 # Github Wrapped 
 [@Violeta-Tejera](https://www.github.com/Violeta-Tejera)
 
+<p align="center">
+  <img src="https://github.com/Violeta-Tejera/Github_Wrapped/assets/80209320/200beba1-f3d2-4995-8693-455e83f574aa" width="200" height="200">
+</p>
+
 The purpose of this project is to develop a tool that offers Github users a comparable experience to Spotify Wrapped, an annual viral marketing campaign made by Spotify since 2016, in which their users are shown several statistics about their music tendencies during the current year.
 
 ## Disclaimer
