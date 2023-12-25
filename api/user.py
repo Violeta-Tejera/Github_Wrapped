@@ -1,4 +1,4 @@
-from github import Github, Repository
+from github import Github
 from utils.github_helpers import get_github_languages
 from datetime import datetime
 from collections import defaultdict

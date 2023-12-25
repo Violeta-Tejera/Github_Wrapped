@@ -2,5 +2,6 @@
     "username": "YOUR USERNAME HERE",
     "token": "YOUR TOKEN HERE",
     "year": YEAR HERE,
-    "showPrivate": true
+    "showPrivate": false,
+    "showRepoInfo": true
 }
