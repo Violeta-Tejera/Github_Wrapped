@@ -2,7 +2,11 @@ from utils.helpers import *
 from api.repo import *
 from api.user import *
 
-def repositories_details(github, username, year, showPrivate, showRepoinfo):
+def repositories_details(github: Github, username: str, year: int, showPrivate: bool, showRepoinfo: bool):
+    """
+    Displays info. related to repositories
+    """
+
     print("------------------------------------------------")
     print("Repositories and code")
     print("------------------------------------------------")
@@ -39,11 +43,16 @@ def repositories_details(github, username, year, showPrivate, showRepoinfo):
         top_language = languages_list[1]
     print(f"But your favourite was without a doubt {top_language[0]}")
 
-def commits_details(github, username, year, showPrivate):
+def commits_details(github: Github, username: str, year: int, showPrivate: bool):
+    """
+    Displays info. related to commits made by the user
+    """
     ### Commits        
     print("Commits")
         
     # Num. of commits of the year
+    commits = get_number_commits(github, username, year)
+    print(f"You made {commits[0]} this year, of which {commits[1]} were public contributions")
         
     # Max streak of commits (dates)
         
@@ -75,7 +84,8 @@ def main():
     github = connect(token)
 
     if github:
-        repositories_details(github, username, year, showPrivate, showRepoinfo)     
+        #repositories_details(github, username, year, showPrivate, showRepoinfo)     
+        commits_details(github, username, year, showPrivate)
         
     disconnect(github)
 

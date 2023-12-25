@@ -42,7 +42,7 @@ This software is provided to you "as is", and you use it at your own risk. Under
   pip install -r requirements.txt
 ```
 
-4. **Modify the config.json file to comply with your details:**
+3. **Modify the config.json file to comply with your details:**
    
   -username: Your username goes here
   
@@ -54,7 +54,7 @@ This software is provided to you "as is", and you use it at your own risk. Under
 
   -showRepoInfo: This boolean let's you choose whether or not you'd like to show extra information about the displayed repos, such as the quantity of commits it had during the year, or the number of new stargazers it had. 
 
-6. **Run**
+4. **Run**
 ```python
 python githubwrapped.py
 ```
