@@ -38,16 +38,20 @@ This software is provided to you "as is", and you use it at your own risk. Under
   cd Github_Wrapped
   ```
 2. **Install dependencies**
+```python
   pip install -r requirements.txt
+```
 
-3. **Modify the config.json file to comply with your details:**
+4. **Modify the config.json file to comply with your details:**
   -username: Your username goes here
   -token: Your personal access token goes here. More info. on that here: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
   -year: Type in the year you want to view
   -showPrivate: Some functionalities toggle between public repositories and all repositories. Choose true for the latter.
 
-4. **Run**
-  python githubwrapped.py
+5. **Run**
+```python
+python githubwrapped.py
+```
 
 
 ## Contact info
