@@ -16,7 +16,7 @@ This software is provided to you "as is", and you use it at your own risk. Under
 
 - **Language statistics**: Discover the variety of programming languages you've used during the past year.
 - **Top language**: Find out which programming language dominated your contributions.
-- **Repository insights**: Which are the repositories you've created and/or contributed to during this last year?
+- **Repository insights**: Which are the repositories you've created and/or contributed to during this last year? What can be told about them?
 
 ## Roadmap
 - Social engagement statistics (stars, followers,...)
