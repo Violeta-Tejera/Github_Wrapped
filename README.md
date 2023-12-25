@@ -4,6 +4,10 @@
 
 The purpose of this project is to develop a tool that offers Github users a comparable experience to Spotify Wrapped, an annual viral marketing campaign made by Spotify since 2016, in which their users are shown several statistics about their music tendencies during the current year.
 
+## Disclaimer
+
+This software is provided to you "as is", and you use it at your own risk. Under no circumstances shall any author be liable for direct, indirect, special, indicental or consequential damages resulting from the use, miuse, or inability to use this software, even if the authors have been advised of the possibility of such damages.
+
 ## Features
 
 - **Language statistics**: Discover the variety of programming languages you've used during the past year.
