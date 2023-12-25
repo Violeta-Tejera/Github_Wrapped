@@ -43,12 +43,18 @@ This software is provided to you "as is", and you use it at your own risk. Under
 ```
 
 4. **Modify the config.json file to comply with your details:**
+   
   -username: Your username goes here
+  
   -token: Your personal access token goes here. More info. on that here: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+ 
   -year: Type in the year you want to view
+  
   -showPrivate: Some functionalities toggle between public repositories and all repositories. Choose true for the latter.
 
-5. **Run**
+  -showRepoInfo: This boolean let's you choose whether or not you'd like to show extra information about the displayed repos, such as the quantity of commits it had during the year, or the number of new stargazers it had. 
+
+6. **Run**
 ```python
 python githubwrapped.py
 ```
