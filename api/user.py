@@ -1,8 +1,7 @@
 from github import Github
 from utils.github_helpers import get_github_languages
-from datetime import datetime, timedelta
+from datetime import datetime
 from collections import defaultdict
-import requests
 
 def get_created_repos(github_instance: Github, username: str, year: int, showPrivate=False):
     """
@@ -21,25 +20,28 @@ def get_created_repos(github_instance: Github, username: str, year: int, showPri
 
     return repos
 
-def get_contributed_repos(github_instance: Github, username: str, year: int):
+def get_contributed_repos(github_instance: Github, year: int, showPrivate=False):
     """
     Returns a list of the repos contributed to by a user in a certain year.
     """
+    user = github_instance.get_user()
+    repos = user.get_repos()
+    start = datetime(year, 1, 1, 0, 0, 0)
+    end = datetime(year+1, 1, 1, 0, 0, 0)
 
-    user = github_instance.get_user(username)
-    repos = []
+    repositories_return = []
 
-    repos += get_created_repos(github_instance, username, year)
+    for repo in repos:
+        # Count commits
+        if repo.pushed_at.year >= year and repo.created_at.year <= year:
+            if (repo.visibility == "private" and showPrivate == True) or repo.visibility == "public":
+                commits = repo.get_commits(author=user, since=start, until=end).totalCount
+                if commits > 0:
+                    repositories_return.append(repo)
 
-    for event in user.get_events():
-        if event.type == "PushEvent" and event.created_at.year == year:
-            repo = event.repo 
-            if repo not in repos:
-                repos.append(repo)
+    return repositories_return
 
-    return repos
-
-def get_languages_user(github_instance: Github, username: str, year: int, showPrivate=False):
+def get_languages_user(github_instance: Github, username: str, year: int, showPrivate=False):       # To do: toggle with private
     """
     Returns a dictionary that maps every language (with at least 1 line of code) with the 
     quantity of lines of code written on year "year" by user "username".
@@ -64,7 +66,7 @@ def get_languages_user(github_instance: Github, username: str, year: int, showPr
 
     return dict(sorted(language_stats.items(), key=lambda x:x[1], reverse=True))
 
-def get_number_commits(github_instance: Github, username: str, year: int):
+def get_number_commits(github_instance: Github, year: int):
     """
     Returns the number of commits a user has done in a certain year. It returns
     a tuple with the total number and the count of commits done on public repos.

@@ -1,7 +1,7 @@
 from github import Github, Repository
 import datetime
 
-def print_statistics_repo(github_instance, username: str, repo: Repository, year: int):
+def print_statistics_repo(github_instance, username: str, repo: Repository, year: int):       # To do: toggle with private
     date_since = datetime.datetime(year, 1, 1, 0, 0, 0)
     date_until = datetime.datetime(year+1, 1, 1, 0, 0, 0)
     user = github_instance.get_user(username)

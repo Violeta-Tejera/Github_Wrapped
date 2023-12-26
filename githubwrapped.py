@@ -23,7 +23,7 @@ def repositories_details(github: Github, username: str, year: int, showPrivate: 
     print("\n------------------------------------------------\n")
 
     # Repositories contributed to this year
-    repos = get_contributed_repos(github, username, year)
+    repos = get_contributed_repos(github, year, showPrivate)
     print("Repositories contributed to this year: ")
     for r in repos:
         print(r.full_name, " Top Language: ", r.language)  
@@ -51,7 +51,7 @@ def commits_details(github: Github, username: str, year: int, showPrivate: bool)
     print("Commits")
         
     # Num. of commits of the year
-    commits = get_number_commits(github, username, year)
+    commits = get_number_commits(github, year)
     print(f"You made {commits[0]} this year, of which {commits[1]} were public contributions")
         
     # Max streak of commits (dates)
@@ -84,7 +84,7 @@ def main():
     github = connect(token)
 
     if github:
-        #repositories_details(github, username, year, showPrivate, showRepoinfo)     
+        repositories_details(github, username, year, showPrivate, showRepoinfo)     
         commits_details(github, username, year, showPrivate)
         
     disconnect(github)
