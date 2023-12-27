@@ -34,7 +34,8 @@ def repositories_details(github: Github, username: str, year: int, showPrivate: 
     print("\n------------------------------------------------\n")
 
     # Languages top and count
-    languages = get_languages_user(github, username, year)
+    
+    languages = get_languages_user(github, year, showPrivate)
     print(f"You coded in more than {len(languages)} languages this year")
     languages_list = list(languages.items())
     if languages_list[0][0] != 'Unknown' or len(languages_list) == 0:
@@ -42,6 +43,7 @@ def repositories_details(github: Github, username: str, year: int, showPrivate: 
     else:
         top_language = languages_list[1]
     print(f"But your favourite was without a doubt {top_language[0]}")
+    
 
 def commits_details(github: Github, username: str, year: int, showPrivate: bool):
     """
@@ -49,16 +51,16 @@ def commits_details(github: Github, username: str, year: int, showPrivate: bool)
     """
     ### Commits        
     print("Commits")
-        
+    data = get_commit_data(github, year)
+
     # Num. of commits of the year
-    commits = get_number_commits(github, year)
-    print(f"You made {commits[0]} this year, of which {commits[1]} were public contributions")
-        
+    print("You made", data["commit_total_count"], "commits this year, of which", data["commit_public_count"], "were public contributions")
+
     # Max streak of commits (dates)
         
     # Max streak of days without commits (dates)
         
-    # Histogram of commits per month
+    # Histogram of commits per month    TO DO
 
 def social_details(github, username, year, showPrivate):
     ### Social
@@ -84,7 +86,7 @@ def main():
     github = connect(token)
 
     if github:
-        repositories_details(github, username, year, showPrivate, showRepoinfo)     
+        #repositories_details(github, username, year, showPrivate, showRepoinfo)     
         commits_details(github, username, year, showPrivate)
         
     disconnect(github)
