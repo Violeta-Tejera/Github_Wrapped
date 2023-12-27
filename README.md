@@ -22,6 +22,7 @@ This software is provided to you "as is", and you use it at your own risk. Under
 ## Roadmap
 - Social engagement statistics (stars, followers,...)
 - More statistics...
+- Database for languages
 - GUI
 
 ## Documentation
