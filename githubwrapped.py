@@ -43,8 +43,6 @@ def repositories_details(user: UserData):
     #    top_language = languages_list[1]
     #print(f"But your favourite was without a doubt {top_language[0]}")
     
-
-# TODO finish
 def commits_details(user: UserData):
     """
     Displays info. related to commits made by the user
@@ -54,13 +52,14 @@ def commits_details(user: UserData):
     data = user.get_commit_data()
 
     # Num. of commits of the year
-    print("You made", user.total_count, "commits this year, of which", user.public_count, "were public contributions")
+    print("You made", user.total_count, "commits this year, of which", user.public_count, "were public contributions. You commited for", data["days_with_commits_count"], "days this year!")
 
     # Max streak of commits (dates) TODO
+    print("Your longest commit streak lasted for", data["streak_duration"], "days, between", data["streak_start_date"], "and", data["streak_end_date"])
 
     # Histogram of commits per month    TODO
 
-# TODO
+# TODO this function too
 def social_details(github, username, year, showPrivate):
     ### Social
     print("Social")
@@ -84,8 +83,6 @@ def main():
 
     github = connect(token)
     user = UserData(github, username, year, showPrivate, showRepoinfo)
-
-    # TODO debug showPrivate, public repos from other users/organizations are not being shown, might be related to github.get_user(), dunno 
 
     if github:
         repositories_details(user)     
