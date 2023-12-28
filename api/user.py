@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 from collections import defaultdict
 
 # TODO: Convert this into a class and store values fetched several times in an attribute initialized in the constructor. DRY!!!
-
 class UserData:
     def __init__(self, github_instance: Github, username: str, year: int, showPrivate:bool, showRepoinfo:bool):
         self.github_instance = github_instance
@@ -26,7 +25,7 @@ class UserData:
         self.repo_commit = dict()
         commit = self.__get_commit_years_basic_data() 
 
-    # TODO debug
+    # TODO debug: returning incorrect total_count when showPrivate == false
     def __get_commit_years_basic_data(self):
         start = datetime(self.year, 1, 1, 0, 0, 0)
         end = datetime(self.year+1, 1, 1, 0, 0, 0)
@@ -42,21 +41,21 @@ class UserData:
             commits_repo_author = []
             for c in commits_repo:
                 count += 1
-                if c.author.login == self.user.login:
+                if c.author and c.author.login == self.user.login:
                     commits_repo_author.append(c)
                     author_count += 1
 
             self.repo_commit[repo] = {
-                "total_count": count, 
+                "total_count": count,
                 "commits_repo_total": commits_repo, 
                 "total_count_author": author_count, 
                 "commits_repo_author": commits_repo_author
             }
+            
             total_count += author_count
 
             if repo.private == False:
                 public_count += author_count
-
 
         self.commit_years = commits_year
         self.total_count = total_count
@@ -147,8 +146,9 @@ class UserData:
             streak_end_date = current_end
             streak_duration = current_streak_duration    
 
-        streak_start_date += timedelta(days=1)
-        streak_duration -= 1
+        if streak_start_date:
+            streak_start_date += timedelta(days=1)
+            streak_duration -= 1
 
         commit_data = {
             "days_with_commits_count" : len(commit_dates),
