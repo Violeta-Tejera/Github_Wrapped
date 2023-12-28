@@ -11,13 +11,12 @@ class UserData:
         self.username = username
         self.year = year
         self.showPrivate = showPrivate
+        self.user = github_instance.get_user()
         
         if showPrivate == True:
-            self.user = github_instance.get_user() # authenticated user can get private repos too
             self.user_repos = self.user.get_repos(visibility='all')
         else:
-            self.user = github_instance.get_user(username)
-            self.user_repos = self.user.get_repos()
+            self.user_repos = self.user.get_repos(visibility='public')
 
         self.showRepoInfo = showRepoinfo
 
@@ -80,9 +79,8 @@ class UserData:
 
         for repo in self.user_repos:
             # Count commits
-            #if (repo.visibility == "private" and self.showPrivate == True) or repo.visibility == "public":
-                if self.repo_commit[repo]["total_count_author"] > 0:
-                    repositories_return.append(repo)
+            if self.repo_commit[repo]["total_count_author"] > 0:
+                repositories_return.append(repo)
 
         return repositories_return
 
