@@ -2,7 +2,7 @@ from github import Github, Repository
 from api.user import *
 import datetime
 
-# TODO: check
+# TODO: check & debug
 def print_statistics_repo(user: UserData, repo: Repository):       # TODO: toggle with private
     print(f"Showing repository statistics for {repo.full_name} in {user.year}")
 

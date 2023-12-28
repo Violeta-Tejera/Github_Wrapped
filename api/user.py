@@ -25,7 +25,6 @@ class UserData:
         self.repo_commit = dict()
         commit = self.__get_commit_years_basic_data() 
 
-    # TODO debug: returning incorrect total_count when showPrivate == false
     def __get_commit_years_basic_data(self):
         start = datetime(self.year, 1, 1, 0, 0, 0)
         end = datetime(self.year+1, 1, 1, 0, 0, 0)
@@ -85,7 +84,6 @@ class UserData:
 
     # TODO: SQLITE3 DB for get_github_languages() functionalities
     # TODO: Reduce time
-    # TODO: Debug. Why is TSQL suddenly the most used language? xd
     def get_languages_user(self):                                     
         """
         Returns a dictionary that maps every language (with at least 1 line of code) with the 
@@ -98,12 +96,14 @@ class UserData:
 
         language_stats = defaultdict(int)
 
-        for repo in self.user_repos:
+        for repo in self.get_contributed_repos():
             for commit in self.repo_commit[repo]["commits_repo_author"]:
+                print(repo.name, " - ", repo.language)
                 for file in commit.files:
                     if (repo.visibility == "private" and self.showPrivate == True) or repo.visibility == "public":
                         extension = '.' + file.filename.split('.')[-1]
                         language = github_languages.get(extension, 'Unknown')
+                        print("* ", language)
                         language_stats[language] += file.changes
         
         print(language_stats)
@@ -113,7 +113,7 @@ class UserData:
 
         commit_dates = set()
 
-        for repo in self.user_repos:
+        for repo in self.get_contributed_repos():
             commits = self.repo_commit[repo]["commits_repo_author"]
             for c in commits:
                 commit_dates.add(c.commit.author.date.date())

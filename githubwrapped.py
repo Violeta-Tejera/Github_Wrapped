@@ -34,14 +34,14 @@ def repositories_details(user: UserData):
     print("\n------------------------------------------------\n")
 
     # Languages top and count
-    #languages = user.get_languages_user()
-    #print(f"You coded in more than {len(languages)} languages this year")
-    #languages_list = list(languages.items())
-    #if languages_list[0] != 'Unknown' or len(languages_list) == 0:
-    #    top_language = languages_list[0]
-    #else:
-    #    top_language = languages_list[1]
-    #print(f"But your favourite was without a doubt {top_language[0]}")
+    languages = user.get_languages_user()
+    print(f"You coded in more than {len(languages)} languages this year")
+    languages_list = list(languages.items())
+    if languages_list[0] != 'Unknown' or len(languages_list) == 0:
+        top_language = languages_list[0]
+    else:
+        top_language = languages_list[1]
+    print(f"But your favourite was without a doubt {top_language[0]}")
     
 def commits_details(user: UserData):
     """
@@ -54,7 +54,7 @@ def commits_details(user: UserData):
     # Num. of commits of the year
     print("You made", user.total_count, "commits this year, of which", user.public_count, "were public contributions. You commited for", data["days_with_commits_count"], "days this year!")
 
-    # Max streak of commits (dates) TODO
+    # Max streak of commits (dates)
     print("Your longest commit streak lasted for", data["streak_duration"], "days, between", data["streak_start_date"], "and", data["streak_end_date"])
 
     # Histogram of commits per month    TODO

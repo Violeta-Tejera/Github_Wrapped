@@ -25,12 +25,6 @@ This software is provided to you "as is", and you use it at your own risk. Under
 - Database for languages
 - GUI
 
-## Documentation
-
-- Python Official documentation: https://docs.python.org/3/
-- Github Rest API documentation: https://docs.github.com/es/rest?apiVersion=2022-11-28
-- PyGithub documentation: https://pygithub.readthedocs.io/en/latest/introduction.html
-
 ## Running it locally
 
 1. **Clone the repository:**
@@ -60,6 +54,11 @@ This software is provided to you "as is", and you use it at your own risk. Under
 python githubwrapped.py
 ```
 
+## References
+
+- Python Official documentation: https://docs.python.org/3/
+- Github Rest API documentation: https://docs.github.com/es/rest?apiVersion=2022-11-28
+- PyGithub documentation: https://pygithub.readthedocs.io/en/latest/introduction.html
 
 ## Contact info
 
