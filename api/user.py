@@ -6,24 +6,112 @@ from collections import defaultdict
 # TODO: Convert this into a class and store values fetched several times in an attribute initialized in the constructor. DRY!!!
 class UserData:
     def __init__(self, github_instance: Github, username: str, year: int, showPrivate:bool, showRepoinfo:bool):
-        self.github_instance = github_instance
-        self.username = username
-        self.year = year
-        self.showPrivate = showPrivate
-        self.user = github_instance.get_user()
+        self.__github_instance = github_instance
+        self.__username = username
+        self.__year = year
+        self.__showPrivate = showPrivate
+        self.__user = github_instance.get_user()
         
         if showPrivate == True:
-            self.user_repos = self.user.get_repos(visibility='all')
+            self.__user_repos = self.user.get_repos(visibility='all')
         else:
-            self.user_repos = self.user.get_repos(visibility='public')
+            self.__user_repos = self.user.get_repos(visibility='public')
 
-        self.showRepoInfo = showRepoinfo
+        self.__showRepoInfo = showRepoinfo
 
-        self.commit_years = 0
-        self.total_count = 0
-        self.public_count = 0
-        self.repo_commit = dict()
-        commit = self.__get_commit_years_basic_data() 
+        self.__commit_years = 0
+        self.__total_count = 0
+        self.__public_count = 0
+        self.__repo_commit = dict()
+        commit = self.__get_commit_years_basic_data()  # TODO check where this is going
+
+    @property
+    def github_instance(self):
+        return self.__github_instance
+    
+    @github_instance.setter
+    def github_instance(self, value):
+        self.__github_instance = value
+
+    @property
+    def showRepoInfo(self):
+        return self.__showRepoInfo
+    
+    @showRepoInfo.setter
+    def showRepoInfo(self, value):
+        self.__showRepoInfo = value
+    
+    @property
+    def username(self):
+        return self.__username
+    
+    @username.setter
+    def username(self, value):
+        self.__username = value
+    
+    @property
+    def year(self):
+        return self.__year
+    
+    @year.setter
+    def year(self, value):
+        self.__year = value
+    
+    @property
+    def showPrivate(self):
+        return self.__showPrivate
+    
+    @showPrivate.setter
+    def showPrivate(self, value):
+        self.__showPrivate = value
+    
+    @property
+    def user(self):
+        return self.__user
+    
+    @user.setter
+    def user(self, value):
+        self.__user = value
+    
+    @property
+    def commit_years(self):
+        return self.__commit_years
+    
+    @commit_years.setter
+    def commit_years(self, value):
+        self.__commit_years = value
+    
+    @property
+    def total_count(self):
+        return self.__total_count
+    
+    @total_count.setter
+    def total_count(self, value):
+        self.__total_count = value
+    
+    @property
+    def public_count(self):
+        return self.__public_count
+    
+    @public_count.setter
+    def public_count(self, value):
+        self.__public_count = value
+    
+    @property
+    def repo_commit(self):
+        return self.__repo_commit    
+    
+    @repo_commit.setter
+    def repo_commit(self, value):
+        self.__repo_commit = value
+    
+    @property
+    def user_repos(self):
+        return self.__user_repos
+    
+    @user_repos.setter
+    def user_repos(self, value):
+        self.__user_repos = value
 
     def __get_commit_years_basic_data(self):
         start = datetime(self.year, 1, 1, 0, 0, 0)
@@ -98,15 +186,12 @@ class UserData:
 
         for repo in self.get_contributed_repos():
             for commit in self.repo_commit[repo]["commits_repo_author"]:
-                print(repo.name, " - ", repo.language)
                 for file in commit.files:
                     if (repo.visibility == "private" and self.showPrivate == True) or repo.visibility == "public":
                         extension = '.' + file.filename.split('.')[-1]
                         language = github_languages.get(extension, 'Unknown')
-                        print("* ", language)
                         language_stats[language] += file.changes
         
-        print(language_stats)
         return dict(sorted(language_stats.items(), key=lambda x:x[1], reverse=True))
 
     def get_commit_data(self):
