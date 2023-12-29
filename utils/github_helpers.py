@@ -1,6 +1,7 @@
+from collections import defaultdict
 import requests
 import yaml
-from collections import defaultdict
+
 
 def get_github_languages():
     """
@@ -8,14 +9,14 @@ def get_github_languages():
     """
     url = 'https://raw.githubusercontent.com/github/linguist/master/lib/linguist/languages.yml'
     response = requests.get(url)
-    
+
     if response.status_code == 200:
         data = response.text
     else:
         raise Exception("Unable to get github languages info")
 
     github_languages = yaml.safe_load(data)
-    
+
     extension_mapping = defaultdict(str)
 
     for language, properties in github_languages.items():
