@@ -1,3 +1,30 @@
+"""
+Module providing functions for printing statistics of a GitHub repository.
+
+Functions:
+    - print_statistics_repo: Prints various statistics for a given repository, such as license, contributors, languages,
+      downloads, forks, issues, commits, stargazers, and releases.
+
+Example:
+    # Import necessary modules
+    from github import Github, Repository
+    from api.user import UserData
+    import datetime
+
+    # Create an instance of UserData
+    github_instance = Github("your_username", "your_token")
+    user_data = UserData(
+        github_instance=github_instance,
+        username="your_username",
+        year=2023,
+        show_private=True,
+        show_repo_info=True
+    )
+
+    # Print statistics for the repository
+    print_statistics_repo(user_data, repo)
+"""
+
 from github import Github, Repository
 from api.user import UserData
 import datetime

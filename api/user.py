@@ -1,10 +1,44 @@
+"""
+Module providing a UserData class for handling GitHub user data and related functionalities.
+
+Classes:
+    UserData: A class for managing GitHub user data, repositories, commits, and more.
+
+Functions:
+- __init__: Initializes an instance of the UserData class.
+- get_created_repos: Returns a list of repositories created by the user in a certain year.
+- get_contributed_repos: Returns a list of repositories contributed to by the user in a certain year.
+- get_languages_user: Returns language statistics for the user's contributions.
+- get_commit_data: Returns data related to the user's commit history.
+
+Example:
+    # Creating an instance of UserData
+    github_instance = Github("your_username", "your_token")
+    user_data = UserData(
+        github_instance=github_instance,
+        username="your_username",
+        year=2023,
+        show_private=True,
+        show_repo_info=True
+    )
+
+    # Getting commit data for the user
+    commit_data = user_data.get_commit_data()
+
+    # Getting language statistics for the user's contributions
+    language_stats = user_data.get_languages_user()
+
+    # Getting repositories created by the user in a certain year
+    created_repos = user_data.get_created_repos()
+
+    # Getting repositories contributed to by the user in a certain year
+    contributed_repos = user_data.get_contributed_repos()
+"""
+
 from github import Github
 from utils.github_helpers import get_github_languages
 from datetime import datetime, timedelta
 from collections import defaultdict
-
-# TODO: Convert this into a class and store values fetched several times
-# in an attribute initialized in the constructor. DRY!!!
 
 
 class UserData:
@@ -15,6 +49,7 @@ class UserData:
             year: int,
             show_private: bool,
             show_repo_info: bool):
+        
         self.__github_instance = github_instance
         self.__username = username
         self.__year = year

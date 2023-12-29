@@ -1,3 +1,20 @@
+"""
+Main script for fetching and displaying various details related to a GitHub user.
+
+Functions:
+    - repositories_details: Displays information related to repositories, including those created and contributed to by the user.
+    - commits_details: Displays information related to commits made by the user, such as the number of commits, commit streak duration, etc.
+    - social_details: Displays social-related information, including stars received, top collaborators, new followers, and new accounts followed.
+    - main: Main entry point for the script, which orchestrates the execution of various functions.
+
+Example:
+    python githubwrapped.py
+
+Note:
+    Make sure to install the required dependencies by running:
+    pip install -r requirements.txt
+"""
+
 from utils.helpers import load_json, connect, disconnect
 from api.repo import print_statistics_repo
 from api.user import UserData
@@ -11,7 +28,7 @@ def repositories_details(user: UserData):
     print("------------------------------------------------")
     print("Repositories and code")
     print("------------------------------------------------")
-
+    """
     # Repositories created this year
     repos = user.get_created_repos()
     print("Repositories created this year: ")
@@ -33,15 +50,20 @@ def repositories_details(user: UserData):
             print_statistics_repo(user, r)
             print("\n")
     print("\n------------------------------------------------\n")
-
+    """
     # Languages top and count
     languages = user.get_languages_user()
     print(f"You coded in more than {len(languages)} languages this year")
     languages_list = list(languages.items())
-    if languages_list[0] != 'Unknown' or len(languages_list) == 0:
+    if languages_list[0][0] != 'Unknown' or len(languages_list) == 0:
+        print("hola")
         top_language = languages_list[0]
     else:
+        print("adios")
         top_language = languages_list[1]
+
+    print(languages_list)
+    print(top_language)
     print(f"But your favourite was without a doubt {top_language}")
 
 
@@ -91,18 +113,9 @@ def social_details(github, username, year, show_private):
 
 def main():
     """
-    Main entry point for the script.
-
-    This script performs all the functionality. It can be run from the command line
-    with the following options:
-
-    Usage:
-        python githubwrapped.py
-
-    Note:
-        Make sure to install the required dependencies by running:
-        pip install -r requirements.txt
+    Main entry point for the script. This script performs all the functionality. 
     """
+
     filename = "config.json"
     jsonfile = load_json(filename)
 
@@ -117,7 +130,7 @@ def main():
 
     if github:
         repositories_details(user)
-        commits_details(user)
+        #commits_details(user)
 
     disconnect(github)
 
