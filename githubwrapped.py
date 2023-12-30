@@ -16,8 +16,8 @@ Note:
 """
 
 from utils.helpers import load_json, connect, disconnect
-from api.repo import print_statistics_repo
-from api.user import UserData
+from api.RepoData import RepoData
+from api.UserData import UserData
 
 
 def repositories_details(user: UserData):
@@ -36,7 +36,8 @@ def repositories_details(user: UserData):
         print(r.full_name, " Top Language: ", r.language)
         # Extra info.
         if user.show_repo_info:
-            print_statistics_repo(user, r)
+            repoData = RepoData(user, r, True)
+            repoData.print_statistics_repo()
             print("\n")
     print("\n------------------------------------------------\n")
 
@@ -47,7 +48,8 @@ def repositories_details(user: UserData):
         print(r.full_name, " Top Language: ", r.language)
         # Extra info.
         if user.show_repo_info:
-            print_statistics_repo(user, r)
+            repoData = RepoData(user, r, True)
+            repoData.print_statistics_repo()
             print("\n")
     print("\n------------------------------------------------\n")
     """
