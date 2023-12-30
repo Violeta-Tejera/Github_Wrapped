@@ -36,7 +36,7 @@ import datetime
 def print_statistics_repo(user: UserData, repo: Repository):
     print(f"Showing repository statistics for {repo.full_name} in {user.year}")
 
-    # License
+    # License 
     try:
         license = repo.get_license()
     except BaseException:
@@ -44,31 +44,18 @@ def print_statistics_repo(user: UserData, repo: Repository):
     else:
         print("License: ", license.license.name)
 
-    # Contributors
+    # Contributors 
     contributors = repo.get_contributors()
     print(f"This repository has {contributors.totalCount} contributors:")
     for c in contributors:
         print(f"- {c.login}")
 
-    # Languages
+    # Languages 
     languages = repo.get_languages().keys()
     print(
         f"This repository is written in {len(languages)} different languages: ")
     for l in languages:
         print(f"- {l}")
-
-    # Downloads
-    try:
-        downloads = repo.get_downloads()
-        downloads_this_year = 0
-        for d in downloads:
-            if d.created_at.year == user.year:
-                downloads_this_year += 1
-    except BaseException:
-        print("This repository hasn't got any downloads (yet!)")
-    else:
-        print(
-            f"This repository has had {downloads_this_year} downloads during this year, {user.year}")
 
     # Forks
     forks_this_year = 0
@@ -82,10 +69,10 @@ def print_statistics_repo(user: UserData, repo: Repository):
     # Issues
     start_date = datetime.datetime(user.year, 1, 1, 0, 0, 0)
     issues_this_year = [i for i in repo.get_issues(
-        since=start_date) if i.created_at.year == user.year]
+        since=start_date, state="all") if i.created_at.year == user.year]
     closed = 0
     for i in issues_this_year:
-        if i.state == "Closed":
+        if i.state != "Open":
             closed += 1
     if len(issues_this_year) != 0:
         print(
@@ -95,8 +82,8 @@ def print_statistics_repo(user: UserData, repo: Repository):
     commits_this_year = user.repo_commit[repo]["total_count"]
     commits_made_by_user = user.repo_commit[repo]["total_count_author"]
     print(
-        f"This repository has had {len(commits_this_year)} commits on {user.year}, of which {commits_made_by_user} were made by you")
-
+        f"This repository has had {commits_this_year} commits on {user.year}, of which {commits_made_by_user} were made by you")
+ 
     # Stargazers
     stargazers = repo.get_stargazers_with_dates()
     stargazers_this_year = 0

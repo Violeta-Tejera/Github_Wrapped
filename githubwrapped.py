@@ -28,7 +28,7 @@ def repositories_details(user: UserData):
     print("------------------------------------------------")
     print("Repositories and code")
     print("------------------------------------------------")
-    """
+    
     # Repositories created this year
     repos = user.get_created_repos()
     print("Repositories created this year: ")
@@ -65,6 +65,7 @@ def repositories_details(user: UserData):
     print(languages_list)
     print(top_language)
     print(f"But your favourite was without a doubt {top_language}")
+    """
 
 
 def commits_details(user: UserData):

@@ -220,7 +220,7 @@ class UserData:
         return repositories_return
 
     # TODO: SQLITE3 DB for get_github_languages() functionalities
-    # TODO: Reduce time
+    # TODO: Reduce time: maybe instead of fetching by file we can get languages for each repo, but it might be an imprecise info (probably will). So a small db may be the best way to improve exec time for now.
     def get_languages_user(self):
         """
         Returns a dictionary that maps every language (with at least 1 line of code) with the
@@ -236,8 +236,7 @@ class UserData:
         for repo in self.get_contributed_repos():
             for commit in self.repo_commit[repo]["commits_repo_author"]:
                 for file in commit.files:
-                    if (repo.visibility ==
-                            "private" and self.show_private) or repo.visibility == "public":
+                    if (repo.visibility == "private" and self.show_private) or repo.visibility == "public":
                         extension = '.' + file.filename.split('.')[-1]
                         language = github_languages.get(extension, 'Unknown')
                         language_stats[language] += file.changes
