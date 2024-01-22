@@ -1,7 +1,7 @@
 {
-    "username": "Violeta-Tejera",
-    "token": "",
-    "year": 2023,
-    "show_private": false,
-    "show_repo_info": true
+    "username": "YOUR USERNAME HERE",
+    "token": "YOUR TOKEN HERE",
+    "year": YEAR HERE,
+    "showPrivate": false,
+    "showRepoInfo": true
 }
