@@ -9,7 +9,8 @@ Classes:
 Methods:
     - __init__: Initializes an instance of the UserData class.
     - get_created_repos: Returns a list of repositories created by the user in a certain year.
-    - get_contributed_repos: Returns a list of repositories contributed to by the user in a certain year.
+    - get_contributed_repos: Returns a list of repositories contributed to by the user in a
+    certain year.
     - get_languages_user: Returns language statistics for the user's contributions.
     - get_commit_data: Returns data related to the user's commit history.
 
@@ -41,14 +42,13 @@ Example:
 from github import Github
 from utils.github_helpers import get_language
 from datetime import datetime, timedelta
-from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from collections import defaultdict
 
 
 class UserData:
     """
-    Class to store the data from the users 
+    Class to store the data from the users
     """
 
     def __init__(
@@ -289,7 +289,7 @@ class UserData:
 
     def get_contributed_repos(self):
         """
-        Returns a list of the repos contributed to by a 
+        Returns a list of the repos contributed to by a
         user in a certain year.
 
         Returns:
@@ -307,7 +307,7 @@ class UserData:
     def get_languages_user(self):
         language_stats = defaultdict(int)
 
-        def process_commit(commit, repo_visibility):
+        def process_commit(commit):
             for file in commit.files:
                 extension = '.' + file.filename.split('.')[-1]
                 language = get_language(extension, "languages_extensions.db")
@@ -317,15 +317,21 @@ class UserData:
             futures = []
             for repo in self.get_contributed_repos():
                 for commit in self.repo_commit[repo]["commits_repo_author"]:
-                    if (repo.visibility == "private" and self.show_private) or repo.visibility == "public":
-                        futures.append(executor.submit(process_commit, commit, repo.visibility))
+                    if (repo.visibility ==
+                            "private" and self.show_private) or repo.visibility == "public":
+                        futures.append(
+                            executor.submit(
+                                process_commit,
+                                commit,
+                                repo.visibility))
 
             # Wait for all futures to complete
             for future in futures:
                 future.result()
 
-        return dict(sorted(language_stats.items(), key=lambda x: x[1], reverse=True))
-        
+        return dict(sorted(language_stats.items(),
+                    key=lambda x: x[1], reverse=True))
+
     def get_commit_data(self):
         """
         Returns some commit dates data related to the longest commit streak duration, start and
