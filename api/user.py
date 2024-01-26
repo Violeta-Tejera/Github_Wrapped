@@ -42,6 +42,8 @@ from github import Github
 from utils.github_helpers import get_language
 from datetime import datetime, timedelta
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
+from collections import defaultdict
 
 
 class UserData:
@@ -302,34 +304,28 @@ class UserData:
 
         return repositories_return
 
-    # TODO: Reduce time: maybe instead of fetching by file we can get languages for each repo, but it might be an imprecise info (probably will). So a small db may be the best way to improve exec time for now.
     def get_languages_user(self):
-        """
-        Gets a dictionary with all the languages coded in this year, and the
-        number of file changes in each language
-
-        Returns:
-            dict: dictionary with all the languages coded in this year, and the
-            number of file changes in each language
-        """
-
         language_stats = defaultdict(int)
 
-        for repo in self.get_contributed_repos():
-            for commit in self.repo_commit[repo]["commits_repo_author"]:
-                for file in commit.files:
+        def process_commit(commit, repo_visibility):
+            for file in commit.files:
+                extension = '.' + file.filename.split('.')[-1]
+                language = get_language(extension, "languages_extensions.db")
+                language_stats[language] += file.changes
+
+        with ThreadPoolExecutor() as executor:
+            futures = []
+            for repo in self.get_contributed_repos():
+                for commit in self.repo_commit[repo]["commits_repo_author"]:
                     if (repo.visibility == "private" and self.show_private) or repo.visibility == "public":
-                        extension = '.' + file.filename.split('.')[-1]
-                        language = get_language(
-                            extension, "languages_extensions.db")
-                        language_stats[language] += file.changes
+                        futures.append(executor.submit(process_commit, commit, repo.visibility))
 
-        return dict(
-            sorted(
-                language_stats.items(),
-                key=lambda x: x[1],
-                reverse=True))
+            # Wait for all futures to complete
+            for future in futures:
+                future.result()
 
+        return dict(sorted(language_stats.items(), key=lambda x: x[1], reverse=True))
+        
     def get_commit_data(self):
         """
         Returns some commit dates data related to the longest commit streak duration, start and

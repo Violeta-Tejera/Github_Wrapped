@@ -55,6 +55,7 @@ def repositories_details(user: UserData):
     # Languages top and count
     languages = user.get_languages_user()
     languages_list = list(languages.items())
+
     if len(languages_list) > 0:
         print(f"You coded in more than {len(languages)} languages this year")
         top_language = None
@@ -70,6 +71,7 @@ def repositories_details(user: UserData):
         if top_language != None:
             print(top_language)
             print(f"But your favourite was without a doubt {top_language}")
+    
 
 
 def commits_details(user: UserData):
