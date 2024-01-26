@@ -1,15 +1,17 @@
 """
-Module providing a UserData class for handling GitHub user data and related functionalities.
+Module: user_data_handler
+
+This module provides a UserData class for handling GitHub user data and related functionalities.
 
 Classes:
     UserData: A class for managing GitHub user data, repositories, commits, and more.
 
-Functions:
-- __init__: Initializes an instance of the UserData class.
-- get_created_repos: Returns a list of repositories created by the user in a certain year.
-- get_contributed_repos: Returns a list of repositories contributed to by the user in a certain year.
-- get_languages_user: Returns language statistics for the user's contributions.
-- get_commit_data: Returns data related to the user's commit history.
+Methods:
+    - __init__: Initializes an instance of the UserData class.
+    - get_created_repos: Returns a list of repositories created by the user in a certain year.
+    - get_contributed_repos: Returns a list of repositories contributed to by the user in a certain year.
+    - get_languages_user: Returns language statistics for the user's contributions.
+    - get_commit_data: Returns data related to the user's commit history.
 
 Example:
     # Creating an instance of UserData
@@ -33,6 +35,7 @@ Example:
 
     # Getting repositories contributed to by the user in a certain year
     contributed_repos = user_data.get_contributed_repos()
+
 """
 
 from github import Github
@@ -42,6 +45,10 @@ from collections import defaultdict
 
 
 class UserData:
+    """
+    Class to store the data from the users 
+    """
+
     def __init__(
             self,
             github_instance: Github,
@@ -49,7 +56,7 @@ class UserData:
             year: int,
             show_private: bool,
             show_repo_info: bool):
-        
+
         self.__github_instance = github_instance
         self.__username = username
         self.__year = year
@@ -71,96 +78,165 @@ class UserData:
 
     @property
     def github_instance(self):
+        """
+        Getter for github_instance
+        """
         return self.__github_instance
 
     @github_instance.setter
     def github_instance(self, value):
+        """
+        Setter for github_instance
+        """
         self.__github_instance = value
 
     @property
     def show_repo_info(self):
+        """
+        Getter for show_repo_info
+        """
         return self.__show_repo_info
 
     @show_repo_info.setter
     def show_repo_info(self, value):
+        """
+        Setter for show_repo_info
+        """
         self.__show_repo_info = value
 
     @property
     def username(self):
+        """
+        Getter for username
+        """
         return self.__username
 
     @username.setter
     def username(self, value):
+        """
+        Setter for username
+        """
         self.__username = value
 
     @property
     def year(self):
+        """
+        Getter for year
+        """
         return self.__year
 
     @year.setter
     def year(self, value):
+        """
+        Setter for year
+        """
         self.__year = value
 
     @property
     def show_private(self):
+        """
+        Getter for show_private
+        """
         return self.__show_private
 
     @show_private.setter
     def show_private(self, value):
+        """
+        Setter for show_private
+        """
         self.__show_private = value
 
     @property
     def user(self):
+        """
+        Getter for user
+        """
         return self.__user
 
     @user.setter
     def user(self, value):
+        """
+        Setter for user
+        """
         self.__user = value
 
     @property
     def commit_years(self):
+        """
+        Getter for commit_years
+        """
         return self.__commit_years
 
     @commit_years.setter
     def commit_years(self, value):
+        """
+        Setter for commit_years
+        """
         self.__commit_years = value
 
     @property
     def total_count(self):
+        """
+        Getter for total_count
+        """
         return self.__total_count
 
     @total_count.setter
     def total_count(self, value):
+        """
+        Setter for total_count
+        """
         self.__total_count = value
 
     @property
     def public_count(self):
+        """
+        Getter for public_count
+        """
         return self.__public_count
 
     @public_count.setter
     def public_count(self, value):
+        """
+        Setter for public_count
+        """
         self.__public_count = value
 
     @property
     def repo_commit(self):
+        """
+        Getter for repo_commit
+        """
         return self.__repo_commit
 
     @repo_commit.setter
     def repo_commit(self, value):
+        """
+        Setter for repo_commit
+        """
         self.__repo_commit = value
 
     @property
     def user_repos(self):
+        """
+        Getter for user_repos
+        """
         return self.__user_repos
 
     @user_repos.setter
     def user_repos(self, value):
+        """
+        Setter for user_repos
+        """
         self.__user_repos = value
 
     def __get_commit_years_basic_data(self):
         """
         Gets basic data related to commits, such as the total count (and public total count)
         of commits of the year; and several data related to each repository
+
+        Note:
+            - Method is private
         """
         start = datetime(self.year, 1, 1, 0, 0, 0)
         end = datetime(self.year + 1, 1, 1, 0, 0, 0)
@@ -200,6 +276,9 @@ class UserData:
         """
         Returns a list of the repos created by a user in a certain year. You can toggle
         whether or not you want to display the private repositories.
+
+        Returns:
+            list: repos created by a user in a certain year
         """
         repos = [r for r in self.user_repos if r.fork is False and r.created_at.year ==
                  self.year and r.owner == self.github_instance.get_user(self.username)]
@@ -208,7 +287,11 @@ class UserData:
 
     def get_contributed_repos(self):
         """
-        Returns a list of the repos contributed to by a user in a certain year.
+        Returns a list of the repos contributed to by a 
+        user in a certain year.
+
+        Returns:
+            list: Repos contributed to by a user in a certain year
         """
         repositories_return = []
 
@@ -221,7 +304,15 @@ class UserData:
 
     # TODO: Reduce time: maybe instead of fetching by file we can get languages for each repo, but it might be an imprecise info (probably will). So a small db may be the best way to improve exec time for now.
     def get_languages_user(self):
-        
+        """
+        Gets a dictionary with all the languages coded in this year, and the
+        number of file changes in each language
+
+        Returns:
+            dict: dictionary with all the languages coded in this year, and the
+            number of file changes in each language
+        """
+
         language_stats = defaultdict(int)
 
         for repo in self.get_contributed_repos():
@@ -229,7 +320,8 @@ class UserData:
                 for file in commit.files:
                     if (repo.visibility == "private" and self.show_private) or repo.visibility == "public":
                         extension = '.' + file.filename.split('.')[-1]
-                        language = get_language(extension, "languages_extensions.db")
+                        language = get_language(
+                            extension, "languages_extensions.db")
                         language_stats[language] += file.changes
 
         return dict(
@@ -242,6 +334,9 @@ class UserData:
         """
         Returns some commit dates data related to the longest commit streak duration, start and
         ending dates; and the total days with commits of the year
+
+        Returns:
+            dict: Dictionary with commit data
         """
 
         commit_dates = set()

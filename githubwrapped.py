@@ -2,10 +2,14 @@
 Main script for fetching and displaying various details related to a GitHub user.
 
 Functions:
-    - repositories_details: Displays information related to repositories, including those created and contributed to by the user.
-    - commits_details: Displays information related to commits made by the user, such as the number of commits, commit streak duration, etc.
-    - social_details: Displays social-related information, including stars received, top collaborators, new followers, and new accounts followed.
-    - main: Main entry point for the script, which orchestrates the execution of various functions.
+    - repositories_details: Displays information related to repositories, including 
+    those created and contributed to by the user.
+    - commits_details: Displays information related to commits made by the user, 
+    such as the number of commits, commit streak duration, etc.
+    - social_details: Displays social-related information, including stars received, 
+    top collaborators, new followers, and new accounts followed.
+    - main: Main entry point for the script, which orchestrates the execution of 
+    various functions.
 
 Example:
     python githubwrapped.py
@@ -26,11 +30,10 @@ def repositories_details(user: UserData):
     Displays info. related to repositories
     """
 
-    
     print("------------------------------------------------")
     print("Repositories and code")
     print("------------------------------------------------")
-    
+
     # Repositories created this year
     repos = user.get_created_repos()
     print("Repositories created this year: ")
@@ -48,21 +51,25 @@ def repositories_details(user: UserData):
             print_statistics_repo(user, r)
             print("\n")
     print("\n------------------------------------------------\n")
-    
+
     # Languages top and count
     languages = user.get_languages_user()
-    print(f"You coded in more than {len(languages)} languages this year")
     languages_list = list(languages.items())
-    if languages_list[0][0] != None or len(languages_list) == 0:
-        top_language = languages_list[0]
+    if len(languages_list) > 0:
+        print(f"You coded in more than {len(languages)} languages this year")
+        top_language = None
+        if languages_list[0][0] is not None:
+            top_language = languages_list[0]
+
+        elif len(languages_list) > 1:
+            top_language = languages_list[1]
+
+        for ll in languages_list:
+            print(ll)
         
-    else:
-        top_language = languages_list[1]
-    
-    for ll in languages_list:
-        print(ll)
-    print(top_language)
-    print(f"But your favourite was without a doubt {top_language}")
+        if top_language != None:
+            print(top_language)
+            print(f"But your favourite was without a doubt {top_language}")
 
 
 def commits_details(user: UserData):
@@ -94,6 +101,7 @@ def commits_details(user: UserData):
 
     # Histogram of commits per month    TODO (when GUI)
 
+
 def main():
     """
     Main entry point for the script. This script performs all the functionality. 
@@ -124,5 +132,6 @@ def main():
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     print("End: ", current_time)
+
 
 main()

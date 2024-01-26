@@ -2,8 +2,9 @@
 Module providing functions for printing statistics of a GitHub repository.
 
 Functions:
-    - print_statistics_repo: Prints various statistics for a given repository, such as license, contributors, languages,
-      downloads, forks, issues, commits, stargazers, and releases.
+    - print_statistics_repo: Prints various statistics for a given 
+    repository, such as license, contributors, languages, downloads, 
+    forks, issues, commits, stargazers, and releases.
 
 Example:
     # Import necessary modules
@@ -25,14 +26,21 @@ Example:
     print_statistics_repo(user_data, repo)
 """
 
-from github import Github, Repository
+from github import Repository
 from api.user import UserData
 import datetime
 
+
 def print_statistics_repo(user: UserData, repo: Repository):
+    """Prints all statistics for a provided repo and user
+
+    Args:
+        user (UserData): User we want to analyze from the point of view of this repo
+        repo (Repository): Repo
+    """
     print(f"Showing repository statistics for {repo.full_name} in {user.year}")
 
-    # License 
+    # License
     try:
         license = repo.get_license()
     except BaseException:
@@ -40,13 +48,13 @@ def print_statistics_repo(user: UserData, repo: Repository):
     else:
         print("License: ", license.license.name)
 
-    # Contributors 
+    # Contributors
     contributors = repo.get_contributors()
     print(f"This repository has {contributors.totalCount} contributors:")
     for c in contributors:
         print(f"- {c.login}")
 
-    # Languages 
+    # Languages
     languages = repo.get_languages().keys()
     print(
         f"This repository is written in {len(languages)} different languages: ")
@@ -79,7 +87,7 @@ def print_statistics_repo(user: UserData, repo: Repository):
     commits_made_by_user = user.repo_commit[repo]["total_count_author"]
     print(
         f"This repository has had {commits_this_year} commits on {user.year}, of which {commits_made_by_user} were made by you")
- 
+
     # Stargazers
     stargazers = repo.get_stargazers_with_dates()
     stargazers_this_year = 0
