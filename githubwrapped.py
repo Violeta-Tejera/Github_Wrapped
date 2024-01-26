@@ -25,6 +25,7 @@ def repositories_details(user: UserData):
     Displays info. related to repositories
     """
 
+    """
     print("------------------------------------------------")
     print("Repositories and code")
     print("------------------------------------------------")
@@ -34,10 +35,6 @@ def repositories_details(user: UserData):
     print("Repositories created this year: ")
     for r in repos:
         print(r.full_name, " Top Language: ", r.language)
-        # Extra info.
-        if user.show_repo_info:
-            print_statistics_repo(user, r)
-            print("\n")
     print("\n------------------------------------------------\n")
 
     # Repositories contributed to this year
@@ -55,17 +52,15 @@ def repositories_details(user: UserData):
     languages = user.get_languages_user()
     print(f"You coded in more than {len(languages)} languages this year")
     languages_list = list(languages.items())
-    if languages_list[0][0] != 'Unknown' or len(languages_list) == 0:
-        print("hola")
+    if languages_list[0][0] != None or len(languages_list) == 0:
         top_language = languages_list[0]
     else:
-        print("adios")
         top_language = languages_list[1]
-
-    print(languages_list)
+    
+    for ll in languages_list:
+        print(ll)
     print(top_language)
     print(f"But your favourite was without a doubt {top_language}")
-    """
 
 
 def commits_details(user: UserData):
@@ -95,11 +90,9 @@ def commits_details(user: UserData):
         "and",
         data["streak_end_date"])
 
-    # Histogram of commits per month    TODO
+    # Histogram of commits per month    TODO (when GUI)
 
 # TODO this function too
-
-
 def social_details(github, username, year, show_private):
     # Social
     print("Social")
@@ -123,8 +116,8 @@ def main():
     username = jsonfile.get('username')
     token = jsonfile.get('token')
     year = jsonfile.get('year')
-    show_private = jsonfile.get('show_private')
-    show_repo_info = jsonfile.get("show_repo_info")
+    show_private = jsonfile.get('showPrivate')
+    show_repo_info = jsonfile.get("showRepoInfo")
 
     github = connect(token)
     user = UserData(github, username, year, show_private, show_repo_info)

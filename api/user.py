@@ -36,7 +36,7 @@ Example:
 """
 
 from github import Github
-from utils.github_helpers import get_github_languages
+from utils.github_helpers import get_language
 from datetime import datetime, timedelta
 from collections import defaultdict
 
@@ -219,18 +219,9 @@ class UserData:
 
         return repositories_return
 
-    # TODO: SQLITE3 DB for get_github_languages() functionalities
     # TODO: Reduce time: maybe instead of fetching by file we can get languages for each repo, but it might be an imprecise info (probably will). So a small db may be the best way to improve exec time for now.
     def get_languages_user(self):
-        """
-        Returns a dictionary that maps every language (with at least 1 line of code) with the
-        quantity of lines of code written on year "year" by user "username".
-        """
-        try:
-            github_languages = get_github_languages()
-        except BaseException:
-            print("Error: Unable to get languages. Aborting now")
-
+        
         language_stats = defaultdict(int)
 
         for repo in self.get_contributed_repos():
@@ -238,7 +229,7 @@ class UserData:
                 for file in commit.files:
                     if (repo.visibility == "private" and self.show_private) or repo.visibility == "public":
                         extension = '.' + file.filename.split('.')[-1]
-                        language = github_languages.get(extension, 'Unknown')
+                        language = get_language(extension, "languages_extensions.db")
                         language_stats[language] += file.changes
 
         return dict(
