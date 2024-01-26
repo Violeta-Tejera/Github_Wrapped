@@ -29,10 +29,6 @@ from github import Github, Repository
 from api.user import UserData
 import datetime
 
-# TODO: check & debug
-
-
-# TODO: toggle with private
 def print_statistics_repo(user: UserData, repo: Repository):
     print(f"Showing repository statistics for {repo.full_name} in {user.year}")
 

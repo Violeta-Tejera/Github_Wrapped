@@ -18,6 +18,7 @@ Note:
 from utils.helpers import load_json, connect, disconnect
 from api.repo import print_statistics_repo
 from api.user import UserData
+from datetime import datetime
 
 
 def repositories_details(user: UserData):
@@ -25,7 +26,7 @@ def repositories_details(user: UserData):
     Displays info. related to repositories
     """
 
-    """
+    
     print("------------------------------------------------")
     print("Repositories and code")
     print("------------------------------------------------")
@@ -47,13 +48,14 @@ def repositories_details(user: UserData):
             print_statistics_repo(user, r)
             print("\n")
     print("\n------------------------------------------------\n")
-    """
+    
     # Languages top and count
     languages = user.get_languages_user()
     print(f"You coded in more than {len(languages)} languages this year")
     languages_list = list(languages.items())
     if languages_list[0][0] != None or len(languages_list) == 0:
         top_language = languages_list[0]
+        
     else:
         top_language = languages_list[1]
     
@@ -92,23 +94,14 @@ def commits_details(user: UserData):
 
     # Histogram of commits per month    TODO (when GUI)
 
-# TODO this function too
-def social_details(github, username, year, show_private):
-    # Social
-    print("Social")
-    # Stars (Given and received)
-
-    # Top 2 collaborators
-
-    # Num de nuevos seguidores
-
-    # Num de nuevas cuentas seguidas
-
-
 def main():
     """
     Main entry point for the script. This script performs all the functionality. 
     """
+
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("Start: ", current_time)
 
     filename = "config.json"
     jsonfile = load_json(filename)
@@ -124,9 +117,12 @@ def main():
 
     if github:
         repositories_details(user)
-        #commits_details(user)
+        commits_details(user)
 
     disconnect(github)
 
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("End: ", current_time)
 
 main()

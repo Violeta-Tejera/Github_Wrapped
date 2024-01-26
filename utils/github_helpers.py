@@ -4,7 +4,6 @@ import yaml
 import os.path
 import sqlite3
 
-# TODO: Change db location to a different directory
 def github_languages_db(filepath):
     """
     Returns a dictionary that maps each extension to the name of a language known to Github.
